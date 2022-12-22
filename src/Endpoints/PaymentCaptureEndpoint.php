@@ -60,4 +60,30 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_read($captureId, $parameters);
     }
+
+    /**
+     * @param string $paymentId
+     * @param array $data
+     * @param array $filters
+     * @return Capture|\Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForId(string $paymentId, array $data, array $filters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return parent::rest_create($data, $filters);
+    }
+
+    /**
+     * @param \Mollie\Api\Resources\Payment $payment
+     * @param array $data
+     * @param array $filters
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createFor(Payment $payment, array $data, array $filters = [])
+    {
+        return $this->createForId($payment->id, $data, $filters);
+    }
 }

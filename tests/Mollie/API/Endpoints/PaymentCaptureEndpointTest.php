@@ -110,6 +110,83 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
         $this->assertCapture($captures[0]);
     }
 
+    public function testCreateCaptureForPayment()
+    {
+        $this->mockApiCall(
+            new Request(
+                'POST',
+                '/v2/payments/tr_WDqYK6vllg/captures',
+                [],
+                '{
+                    "amount": {
+                        "value": "1027.99",
+                        "currency": "EUR"
+                    },
+                    "description": "Capture for order #1234"
+                }'
+            ),
+            new Response(
+                201,
+                [],
+                $this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT')
+            )
+        );
+
+        $payment = new Payment($this->apiClient);
+        $payment->id = 'tr_WDqYK6vllg';
+
+        $capture = $this->apiClient->paymentCaptures->createFor(
+            $payment,
+            [
+                'amount' => [
+                    "currency" => "EUR",
+                    "value" => "1027.99",
+                ],
+                'description' => "Capture for order #1234",
+            ]
+        );
+
+        $this->assertCapture($capture);
+    }
+
+    public function testCreateCaptureOnPaymentResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                'POST',
+                '/v2/payments/tr_WDqYK6vllg/captures',
+                [],
+                '{
+                    "amount": {
+                        "value": "1027.99",
+                        "currency": "EUR"
+                    },
+                    "description": "Capture for order #1234"
+                }'
+            ),
+            new Response(
+                201,
+                [],
+                $this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT')
+            )
+        );
+
+        $payment = new Payment($this->apiClient);
+        $payment->id = 'tr_WDqYK6vllg';
+
+        $capture = $payment->createCapture(
+            [
+                'amount' => [
+                    "currency" => "EUR",
+                    "value" => "1027.99",
+                ],
+                'description' => "Capture for order #1234",
+            ]
+        );
+
+        $this->assertCapture($capture);
+    }
+
     protected function assertCapture($capture)
     {
         $this->assertInstanceOf(Capture::class, $capture);

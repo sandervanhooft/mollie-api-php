@@ -770,4 +770,9 @@ class Payment extends BaseResource
 
         return 0.0;
     }
+
+    public function createCapture(array $data, array $filters = [])
+    {
+        return $this->client->paymentCaptures->createFor($this, $data, $filters);
+    }
 }
