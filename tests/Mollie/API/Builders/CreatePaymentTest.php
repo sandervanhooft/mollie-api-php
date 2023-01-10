@@ -35,5 +35,4 @@ class CreatePaymentTest extends MollieApiClientTest
 
         $this->assertEquals([], $createPayment->getFilters());
     }
-
 }
