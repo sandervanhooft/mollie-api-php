@@ -7,7 +7,7 @@ namespace Mollie\Api\Builders;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SequenceType;
 
-class CreatePayment
+class CreatePaymentBuilder
 {
     /**
      * @var \Mollie\Api\MollieApiClient
@@ -150,23 +150,28 @@ class CreatePayment
         return $this;
     }
 
-    public function addRoute(string $value, string $currency, array $destination, string $releaseDate = null)
+    /**
+     * @param string $amountValue A string containing the exact amount of this portion of the payment in the given currency. Make sure to send the right amount of decimals. Non-string values are not accepted.
+     * @param string $amountCurrency An ISO 4217 currency code. Currently, only EUR payments can be routed.
+     * @param array $destination The type of destination. Currently, only the destination type "organization" is supported.
+     * @param string|null $releaseDate Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in YYYY-MM-DD format. If no date is given, the funds become available to the balance as soon as the payment succeeds.
+     * @return $this
+     */
+    public function addRoute(string $amountValue, string $amountCurrency, array $destination, string $releaseDate = null)
     {
         if (! array_key_exists("routing", $this->payload)) {
             $this->payload["routing"] = [];
         }
 
-        $newRoute = [
+        $newRoute = array_filter([
             "amount" => [
-                "value" => $value,
-                "currency" => $currency,
+                "value" => $amountValue,
+                "currency" => $amountCurrency,
             ],
             "destination" => $destination,
-        ];
+            "releaseDate" => $releaseDate,
+        ]);
 
-        if ($releaseDate) {
-            $newRoute['releaseDate'] = $releaseDate;
-        }
 
         $this->payload["routing"][] = $newRoute;
 
@@ -215,7 +220,13 @@ class CreatePayment
         return $this;
     }
 
-    public function go()
+    /**
+     *
+     * Send the create payment request to the Mollie API.
+     * @return \Mollie\Api\Resources\Payment
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function send()
     {
         return $this->client->payments->create($this->payload, $this->filters);
     }
