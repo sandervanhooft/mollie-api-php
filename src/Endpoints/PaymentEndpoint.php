@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Builders\CreatePaymentBuilder;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
@@ -50,6 +51,16 @@ class PaymentEndpoint extends CollectionEndpointAbstract
     public function create(array $data = [], array $filters = [])
     {
         return $this->rest_create($data, $filters);
+    }
+
+    /**
+     * Fluently build and send the create payment request using the dedicated builder.
+     *
+     * @return \Mollie\Api\Builders\CreatePaymentBuilder
+     */
+    public function createWith()
+    {
+        return new CreatePaymentBuilder($this->client);
     }
 
     /**
