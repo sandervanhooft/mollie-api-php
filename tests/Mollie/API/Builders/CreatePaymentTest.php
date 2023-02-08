@@ -97,4 +97,14 @@ class CreatePaymentTest extends MollieApiClientTest
 
         $this->assertEquals([], $createPayment->getFilters());
     }
+
+    /** @test */
+    public function can_enable_qr_code_generation()
+    {
+        $createPayment = new CreatePaymentBuilder(new MollieApiClient);
+
+        $createPayment->generateQRCode();
+
+        $this->assertEquals('details.qrCode', $createPayment->getFilters()['include']);
+    }
 }
