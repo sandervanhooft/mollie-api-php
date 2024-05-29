@@ -14,11 +14,17 @@ abstract class BaseExample
     protected $mollie;
 
     /**
+     * @var \Mollie\examples\OrderRepository
+     */
+    protected $orderRepository;
+
+    /**
      * @param \Mollie\Api\MollieApiClient $mollie
      */
     public function __construct(MollieApiClient $mollie)
     {
         $this->mollie = $mollie;
+        $this->orderRepository = new OrderRepository;
     }
 
     /**

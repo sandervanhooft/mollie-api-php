@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
 use Mollie\examples\BaseExample;
-use Mollie\examples\ExampleRepository;
+use Mollie\examples\OrderRepository;
 
 class CreatePayment extends BaseExample
 {
@@ -52,7 +52,7 @@ class CreatePayment extends BaseExample
             /*
              * In this example we store the order with its payment status in a database.
              */
-            ExampleRepository::storeOrderPaymentStatus($orderId, $payment->status);
+            $this->orderRepository->storePaymentStatus($orderId, $payment->status);
 
             /*
              * Send the customer off to complete the payment.
