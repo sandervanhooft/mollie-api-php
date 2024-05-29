@@ -68,7 +68,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Mollie\\Api\\": "src/"
+      "Mollie\\Api\\": "src/",
+      "Mollie\\Examples\\": "examples/"
     }
   },
   "autoload-dev": {

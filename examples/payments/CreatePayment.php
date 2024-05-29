@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
-use Mollie\examples\BaseExample;
-use Mollie\examples\OrderRepository;
+use Mollie\Examples\BaseExample;
 
 class CreatePayment extends BaseExample
 {
