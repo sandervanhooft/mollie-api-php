@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Mollie\Examples;
+
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
 use Mollie\Examples\BaseExample;
