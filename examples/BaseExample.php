@@ -14,7 +14,7 @@ abstract class BaseExample
     protected $mollie;
 
     /**
-     * @var \Mollie\examples\OrderRepository
+     * @var \Mollie\Examples\OrderRepository
      */
     protected $orderRepository;
 
